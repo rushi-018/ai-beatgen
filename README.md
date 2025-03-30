@@ -1,141 +1,171 @@
-# Context-Specific Audio Generator
+# AI Beat Generator
 
-A machine learning project that generates audio compositions with specific frequency profiles designed to induce particular neurological states (sleep, focus, relaxation, etc.).
+An AI-powered music generation system that creates context-aware ambient music for different purposes like sleep, focus, relaxation, meditation, and energy. The system uses deep learning to generate unique soundscapes tailored to specific contexts.
 
-## Overview
+## Features
 
-This project uses a conditional Generative Adversarial Network (GAN) to generate audio with specific frequency characteristics based on the FSD50K dataset. The model is designed to emphasize particular frequency bands and specific frequencies that are known to have effects on brain activity, based on neuroscientific research.
+- **Context-Based Generation**: Create music for different purposes:
+  - Sleep: Gentle, soothing sounds with delta and theta wave frequencies
+  - Focus: Clear, structured sounds with alpha and beta frequencies
+  - Relaxation: Calming ambient sounds with theta frequencies
+  - Meditation: Deep, resonant tones with balanced frequencies
+  - Energy: Dynamic, upbeat sounds with beta and gamma frequencies
 
-### Key Features
+- **Dynamic Audio Progression**:
+  - Time-based modulation
+  - Progressive mixing
+  - Smooth transitions between audio segments
+  - Context-specific audio processing
 
-- **Context-specific audio generation**: Generate audio tailored for sleep, focus, relaxation, meditation, or energy
-- **Frequency-aware neural network**: Special layers designed to enhance and modulate specific frequency bands
-- **Customizable output**: Control which frequency characteristics to emphasize
-- **Neurologically-informed design**: Based on established research on audio frequencies and brain activity
+- **Multiple Instrument Categories**:
+  - Traditional instruments (piano, strings, guitar)
+  - Electronic sounds
+  - World instruments
+  - Ambient pads
+  - Percussion and rhythmic elements
 
-## How It Works
+- **Real-time Audio Synthesis**:
+  - Frequency modulation
+  - Dynamic sample mixing
+  - Adaptive sound generation
+  - Custom audio effects
 
-The system operates through several key components:
+- **User-Friendly Interface**:
+  - Streamlit web application
+  - Simple context selection
+  - Real-time audio preview
+  - Download generated audio
 
-1. **Dataset Processing**: Filters the FSD50K dataset based on context labels and prepares audio data for training
-2. **Conditional GAN**: A generator network creates audio conditioned on specific contexts, while a discriminator evaluates authenticity and context alignment
-3. **Frequency Modulation Layer**: A specialized neural network layer that enhances specific frequency bands and target frequencies
-4. **Analysis Tools**: Utilities to analyze the frequency characteristics of generated audio
+## Prerequisites
 
-### Neurological Frequency Bands
-
-The system specifically targets these frequency ranges:
-
-- **Delta (1-4 Hz)**: Associated with deep sleep and healing
-- **Theta (4-8 Hz)**: Associated with meditation, creativity, and REM sleep
-- **Alpha (8-13 Hz)**: Associated with relaxation, calmness, and present focus
-- **Beta (13-30 Hz)**: Associated with alertness, focus, and active thinking
-- **Gamma (30-100 Hz)**: Associated with higher cognitive processing
-
-### Targeted Frequencies
-
-Additionally, the model can emphasize specific frequencies known for particular effects:
-
-- **Schumann Resonance (7.83 Hz)**: Earth's electromagnetic field resonance, associated with grounding
-- **Solfeggio Frequency (528 Hz)**: Associated with healing and DNA repair
-- **Earth Frequency (432 Hz)**: Alternative tuning frequency associated with harmony
-- **Focus Frequency (14.1 Hz)**: Associated with increased concentration
-- **Deep Sleep Frequency (2.5 Hz)**: Promotes deep, restorative sleep
-- **Meditation Frequency (6.0 Hz)**: Enhances meditative states
+- Python 3.8 or higher
+- pip package manager
+- Virtual environment (recommended)
 
 ## Installation
 
+1. Clone the repository:
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/context-audio-generator.git
-cd context-audio-generator
+git clone https://github.com/yourusername/ai-beatgen.git
+cd ai-beatgen
+```
 
-# Install dependencies
+2. Create and activate a virtual environment:
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Linux/Mac
+python -m venv venv
+source venv/bin/activate
+```
+
+3. Install required packages:
+```bash
 pip install -r requirements.txt
+```
+
+4. Create the necessary directory structure:
+
+samples/
+├── instruments/
+│ ├── drums/
+│ ├── bass/
+│ ├── lead/
+│ ├── pad/
+│ ├── world/
+│ └── electronic/
+└── natural/
+├── ambient/
+├── textural/
+├── rhythmic/
+└── melodic/
+
+
+5. Run the sample download script:
+```bash
+python download_samples.py
 ```
 
 ## Usage
 
-### Training the Model
-
+1. Start the Streamlit application:
 ```bash
-# Train a model for sleep-inducing audio
-python train.py --mode train --context sleep --num_epochs 100 --output_dir ./output/sleep
-
-# Train a model for focus-enhancing audio
-python train.py --mode train --context focus --num_epochs 100 --output_dir ./output/focus
+streamlit run app.py
 ```
 
-### Generating Audio
+2. Open your web browser and navigate to the displayed local URL (typically http://localhost:8501)
 
-```bash
-# Generate sleep-inducing audio
-python train.py --mode generate --context sleep --model_path ./output/sleep/models/generator_final.pth --num_samples 5 --output_dir ./generated/sleep
+3. Select your desired context:
+   - Choose from Sleep, Focus, Relaxation, Meditation, or Energy
+   - Adjust any available parameters
+   - Click "Generate" to create your music
 
-# Generate focus-enhancing audio
-python train.py --mode generate --context focus --model_path ./output/focus/models/generator_final.pth --num_samples 5 --output_dir ./generated/focus
-```
+4. Listen to the preview and download if desired
 
-### Analyzing Generated Audio
+## Project Structure
+ai-beatgen/
+├── app.py # Main Streamlit application
+├── model.py # Neural network model and audio generation
+├── config.py # Configuration and context mappings
+├── download_samples.py # Sample download script
+├── requirements.txt # Python dependencies
+└── README.md # Project documentation
 
-```bash
-# Analyze the frequency characteristics of generated audio
-python -c "from utils import batch_analyze_frequencies; batch_analyze_frequencies('./generated/sleep')"
-```
 
-## Command Line Arguments
+## Technical Details
 
-### Common Arguments
+- **Audio Generation**: Uses PyTorch for neural network-based audio synthesis
+- **Sample Rate**: 22050 Hz
+- **Output Format**: WAV files
+- **Duration**: Configurable, default 30 seconds
+- **Frequency Ranges**:
+  - Delta: 0.5-4 Hz
+  - Theta: 4-8 Hz
+  - Alpha: 8-13 Hz
+  - Beta: 13-32 Hz
+  - Gamma: 32+ Hz
 
-- `--data_dir`: Directory for the dataset (default: "./data")
-- `--output_dir`: Directory to save outputs (default: "./output")
-- `--context`: Context for audio generation, choose from ["sleep", "focus", "relaxation", "energy", "meditation"] (default: "sleep")
-- `--sample_rate`: Audio sample rate (default: 22050)
-- `--duration`: Duration of audio samples in seconds (default: 4.0)
-- `--latent_dim`: Dimension of the latent space (default: 100)
+## Troubleshooting
 
-### Training Arguments
+Common issues and solutions:
 
-- `--mode`: Mode of operation, either "train" or "generate" (default: "train")
-- `--batch_size`: Batch size for training (default: 16)
-- `--num_epochs`: Number of training epochs (default: 100)
-- `--lr`: Learning rate (default: 0.0002)
-- `--lambda_aux`: Weight for auxiliary loss (default: 1.0)
-- `--num_workers`: Number of worker processes for data loading (default: 4)
-- `--log_interval`: Interval for logging training metrics (default: 10)
-- `--sample_interval`: Interval for generating sample audio (default: 1)
-- `--save_interval`: Interval for saving model checkpoints (default: 10)
+1. **Sample Download Fails**:
+   - Check your internet connection
+   - Ensure you have sufficient disk space
+   - Try running the script with admin privileges
 
-### Generation Arguments
+2. **Audio Generation Errors**:
+   - Verify all dependencies are installed
+   - Check available system memory
+   - Ensure sample directories are properly structured
 
-- `--model_path`: Path to the trained generator model
-- `--num_samples`: Number of audio samples to generate (default: 5)
-- `--focus_condition`: Specific condition to focus on (-1 for random) (default: -1)
+3. **Interface Issues**:
+   - Clear browser cache
+   - Restart the Streamlit server
+   - Check console for error messages
 
-## Dataset
+## Contributing
 
-This project uses the FSD50K dataset:
-
-> **FSD50K**: A dataset with 51,197 audio clips totaling over 100 hours of audio from the Freesound platform annotated using 200 audio classes derived from the AudioSet Ontology.
-
-The dataset is available at: https://zenodo.org/records/4060432
-
-## Important Notes
-
-- Actual download and processing of the FSD50K dataset requires ~50GB of disk space
-- Training a good model can take several hours on a GPU
-- For optimal results, consider fine-tuning on specialized audio samples for your specific use case
-
-## Scientific Basis
-
-The relationship between audio frequencies and neurological states is based on research in:
-
-1. **Brainwave entrainment**: The phenomenon where brainwaves synchronize to external stimuli
-2. **Binaural beats**: When slightly different frequencies presented to each ear create a third "phantom" frequency
-3. **Isochronic tones**: Regular patterns of sound followed by silence that can help entrain brainwaves
-
-This project aims to create audio that can gently guide brainwave activity toward desired states.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is available under the MIT License. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- PyTorch team for the deep learning framework
+- Streamlit team for the web interface framework
+- The open-source community for various audio processing libraries
+
+## Contact
+
+Rushiraj - [@rushi-018]((https://github.com/rushi-018))
+
+Project Link: (https://github.com/rushi-018/ai-beatgen)
