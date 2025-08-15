@@ -1,6 +1,7 @@
 import os
 import io
 import torch
+import time
 import streamlit as st
 from shutil import which
 from pydub import AudioSegment
@@ -35,7 +36,8 @@ def load_model():
         for percent in range(0, 50, 10):
             progress_bar.progress(percent)
             status_text.text(f"Loading model files... {percent}%")
-            st.sleep(0.2)
+            time.sleep(0.2)
+        status_text.text("Model files loaded. Initializing processor...")
 
         processor = AutoProcessor.from_pretrained("facebook/musicgen-medium")
         progress_bar.progress(70)
