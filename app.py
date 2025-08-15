@@ -1,4 +1,14 @@
+# import os
 import os
+from shutil import which
+
+# Ensure ffmpeg is found
+ffmpeg_path = which("ffmpeg")
+if ffmpeg_path:
+    os.environ["FFMPEG_BINARY"] = ffmpeg_path
+else:
+    raise RuntimeError("ffmpeg not found. Please check packages.txt installation.")
+
 import streamlit as st
 import numpy as np
 import torch
@@ -20,6 +30,8 @@ from utils import (
     plot_waveform, plot_spectrogram, analyze_frequency_content,
     analyze_specific_frequencies, get_audio_download_link, save_audio
 )
+from pydub.utils import which
+AudioSegment.converter = which("ffmpeg")
 
 from config import CONTEXT_MAPPINGS
 from model import AudioGenerator, FrequencyModulationLayer
