@@ -93,4 +93,5 @@ watchdog==6.0.0
 wcwidth==0.2.13
 transformers
 huggingface-hub
+pydub
 
